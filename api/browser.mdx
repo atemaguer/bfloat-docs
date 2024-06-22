@@ -1,0 +1,71 @@
+---
+title: Connect to Headless Browser
+description: "The Browser API allows you to spin up and interact with a remote headless browser."
+---
+
+This section provides a step-by-step guide on how to create a headless browser instance using our API. Follow the instructions below to get started:
+
+### Prerequisites
+
+Ensure you have the following prerequisites before you proceed:
+
+- API key. You can create an API key by visiting [https://console.bfloatai.com/api-keys](https://console.bfloatai.com/api-keys) and clicking the "Create API Key" button.
+- Stable internet connection
+
+### Create and Connect to the Browser
+
+To start utilizing the headless browser, you need to initialize an instance first. This involves configuring the necessary settings and connecting to our browser service. Below, you will find straightforward examples demonstrating how to initialize the browser using our API with both Playwright and Puppeteer frameworks.
+
+For establishing a WebSocket connection to a headless browser using Playwright or Puppeteer, proceed with the following steps:
+
+<CodeGroup>
+
+```javascript Playwright (JavaScript)
+const { chromium } = require("playwright");
+
+(async () => {
+  // Note: sessionId is an optional parameter. If provided, it connects to an existing session or creates a new one if it doesn't exist.
+  const browser = await chromium.connectOverCDP({
+    endpointURL:
+      "wss://browser.bfloat.ai?apiKey=<API_KEY>&sessionId=<SESSION_ID>",
+  });
+
+  // Your code to interact with the browser goes here
+
+  await browser.close();
+})();
+```
+
+```python Playwright (Python)
+from playwright.sync_api import sync_playwright
+
+with sync_playwright() as p:
+    # Note: sessionId is an optional parameter. If provided, it connects to an existing session or creates a new one if it doesn't exist.
+    browser = p.chromium.connect_over_cdp(endpoint_url="wss://browser.bfloat.ai?apiKey=<API_KEY>&sessionId=<SESSION_ID>")
+
+    # Your code to interact with the browser goes here
+
+    browser.close()
+```
+
+```javascript Puppeteer (JavaScript)
+const puppeteer = require("puppeteer");
+
+(async () => {
+  // Note: sessionId is an optional parameter. If provided, it connects to an existing session or creates a new one if it doesn't exist.
+  const browser = await puppeteer.connect({
+    browserWSEndpoint:
+      "wss://browser.bfloat.ai?apiKey=<API_KEY>&sessionId=<SESSION_ID>",
+  });
+
+  // Your code to interact with the browser goes here
+
+  await browser.close();
+})();
+```
+
+</CodeGroup>
+
+These example demonstrates how to establish a WebSocket connection to a remote headless browser service using Playwright and Puppeteer.
+
+As shown, you can pass an optional session ID as a query parameter in the WebSocket endpoint URL to connect to a specific session or create a new one if it doesn't exist. This session ID enables you to retrieve session details and manage session actions, such as termination, through the [Sessions API](/api-reference/sessions). It also allows access to specific data like the interactive browser window URL and the WebSocket URL.
