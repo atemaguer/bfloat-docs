@@ -34,21 +34,21 @@
   "navigation": [
     {
       "group": "Getting Started",
-      "pages": ["api/introduction"]
+      "pages": ["api-reference/introduction"]
     },
     {
       "group": "Bfloat APIs",
       "pages": [
         {
           "group": "Browser",
-          "pages": ["api/browser"]
+          "pages": ["api-reference/browser"]
         },
         {
           "group": "Sessions",
           "pages": [
-            "api/sessions/get-session",
-            "api/sessions/create-session",
-            "api/sessions/delete-session"
+            "api-reference/sessions/get-session",
+            "api-reference/sessions/create-session",
+            "api-reference/sessions/delete-session"
           ]
         }
       ]
