@@ -3,14 +3,11 @@
   "info": {
     "title": "Bfloat AI API Documentation",
     "description": "The Bfloat AI API is a robust suite of tools designed to empower developers by providing comprehensive, scalable, and easy-to-integrate solutions. With our API, you can effortlessly manage headless browser sessions and interact with a headless browser through WebSockets.",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+    "version": "3.1.0"
   },
   "servers": [
     {
-      "url": "https://api.bfloat.ai/"
+      "url": "https://api.bfloat.ai"
     }
   ],
   "paths": {
@@ -23,7 +20,13 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SessionInfo"
+                  },
+                  "type": "array",
+                  "title": "Response Get Sessions V1 Sessions Get"
+                }
               }
             }
           }
@@ -42,7 +45,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/SessionInfo"
+                }
               }
             }
           }
@@ -54,10 +59,10 @@
         ]
       }
     },
-    "/v1/sessions/{session_id}": {
-      "get": {
-        "summary": "Get Session Info",
-        "operationId": "get_session_info_v1_sessions__session_id__get",
+    "/v1/sessions/{session_id}/stop": {
+      "post": {
+        "summary": "Stop Session",
+        "operationId": "stop_session_v1_sessions__session_id__stop_post",
         "security": [
           {
             "APIKeyHeader": []
@@ -95,6 +100,50 @@
           }
         }
       }
+    },
+    "/v1/sessions/{session_id}": {
+      "get": {
+        "summary": "Get Session Info",
+        "operationId": "get_session_info_v1_sessions__session_id__get",
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Session Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionInfo"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -111,6 +160,56 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "SessionInfo": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The session id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "The session status"
+          },
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "description": "The project id"
+          },
+          "updated_at": {
+            "type": "string",
+            "title": "Updated At",
+            "description": "The session updated at"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At",
+            "description": "The session created at"
+          },
+          "debug_info": {
+            "type": "object",
+            "title": "Debug Info",
+            "description": "The session debug info"
+          },
+          "duration": {
+            "type": "integer",
+            "title": "Duration",
+            "description": "The session duration"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "project_id",
+          "updated_at",
+          "created_at",
+          "debug_info",
+          "duration"
+        ],
+        "title": "SessionInfo"
       },
       "ValidationError": {
         "properties": {

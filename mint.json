@@ -27,7 +27,7 @@
   ],
   "topbarCtaButton": {
     "name": "Web Console",
-    "url": "https://app.bfloat.ai/"
+    "url": "https://console.bfloat.ai/"
   },
   "tabs": [],
   "anchors": [],
@@ -46,9 +46,10 @@
         {
           "group": "Sessions",
           "pages": [
+            "api-reference/sessions/get-sessions",
             "api-reference/sessions/get-session",
             "api-reference/sessions/create-session",
-            "api-reference/sessions/delete-session"
+            "api-reference/sessions/stop-session"
           ]
         }
       ]
