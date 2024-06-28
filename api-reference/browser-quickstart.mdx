@@ -3,20 +3,21 @@ title: Connect to Headless Browser
 description: "The Browser API allows you to spin up and interact with a remote headless browser."
 ---
 
-This section provides a step-by-step guide on how to create a headless browser instance using our API. Follow the instructions below to get started:
+This section provides a step-by-step guide on how to create a headless browser instance using the Bfloat API. Follow the instructions below to get started:
 
 ### Prerequisites
 
 Ensure you have the following prerequisites before you proceed:
 
-- API key. You can create an API key by visiting [https://console.bfloatai.com/api-keys](https://console.bfloatai.com/api-keys) and clicking the "Create API Key" button.
-- Stable internet connection
+- A [Bfloat](https://console.bfloat.ai) account.
+- An API key. You can create an API key by visiting [https://console.bfloatai.com/api-keys](https://console.bfloatai.com/api-keys) and clicking the "Create API Key" button.
+- A stable internet connection
 
 ### Create and Connect to the Browser
 
-To start utilizing the headless browser, you need to initialize an instance first. This involves configuring the necessary settings and connecting to our browser service. Below, you will find straightforward examples demonstrating how to initialize the browser using our API with both Playwright and Puppeteer frameworks.
+To start utilizing the headless browser, you need to initialize an instance first. This involves configuring the necessary settings and connecting to our browser service. Below, you will find straightforward examples demonstrating how to initialize the browser using our API with both Playwright and Puppeteer frameworks for JavaScript and Python.
 
-For establishing a WebSocket connection to a headless browser using Playwright or Puppeteer, proceed with the following steps:
+For establishing a WebSocket connection to a headless browser using Playwright or Puppeteer, see the examples below:
 
 <CodeGroup>
 
@@ -66,6 +67,21 @@ const puppeteer = require("puppeteer");
 
 </CodeGroup>
 
-These example demonstrates how to establish a WebSocket connection to a remote headless browser service using Playwright and Puppeteer.
+The above examples demonstrate how to establish a WebSocket connection to the remote headless browser service using Playwright and Puppeteer. Furthermore, the API accepts the following parameters:
+
+- `apiKey`: Your API key.
+- `sessionId`: An optional session ID. If provided, it connects to an existing session or creates a new one if it doesn't exist.
+- `lifetime`: An optional lifetime in minutes. If provided, the session will be terminated after the lifetime is up. Otherwise, the session will be terminated after the default 5 minutes.
 
 As shown, you can pass an optional session ID as a query parameter in the WebSocket endpoint URL to connect to a specific session or create a new one if it doesn't exist. This session ID enables you to retrieve session details and manage session actions, such as termination, through the [Sessions API](/api-reference/sessions). It also allows access to specific data like the interactive browser window URL and the WebSocket URL.
+
+For instance, to get the interactive browser window URL, you can use the following code:
+
+```python
+import httpx
+
+response = httpx.get("https://api.bfloat.ai/v1/sessions/<SESSION_ID>")
+data = response.json()
+debug_info = data["debug_info"]
+print(debug_info)
+```

@@ -41,7 +41,7 @@
       "pages": [
         {
           "group": "Browser",
-          "pages": ["api-reference/browser"]
+          "pages": ["api-reference/browser-quickstart"]
         },
         {
           "group": "Sessions",

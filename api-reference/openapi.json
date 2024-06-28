@@ -50,6 +50,16 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -84,9 +94,21 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
               }
             }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
           },
           "422": {
             "description": "Validation Error",
@@ -132,6 +154,16 @@
               }
             }
           },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -148,6 +180,50 @@
   },
   "components": {
     "schemas": {
+      "DebugInfo": {
+        "properties": {
+          "ws_endpoint": {
+            "type": "string",
+            "title": "Ws Endpoint",
+            "description": "WebSocket endpoint for the browser"
+          },
+          "ws_debugger_url": {
+            "type": "string",
+            "title": "Ws Debugger Url",
+            "description": "WebSocket URL for the debugger"
+          },
+          "devtools_frontend_url": {
+            "type": "string",
+            "title": "Devtools Frontend Url",
+            "description": "URL for the DevTools frontend"
+          }
+        },
+        "type": "object",
+        "required": ["ws_endpoint", "ws_debugger_url", "devtools_frontend_url"],
+        "title": "DebugInfo"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          }
+        },
+        "type": "object",
+        "required": ["message"],
+        "title": "ErrorResponse"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -189,8 +265,14 @@
             "description": "The session created at"
           },
           "debug_info": {
-            "type": "object",
-            "title": "Debug Info",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DebugInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "The session debug info"
           },
           "duration": {
@@ -210,6 +292,22 @@
           "duration"
         ],
         "title": "SessionInfo"
+      },
+      "SuccessResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "success"
+          }
+        },
+        "type": "object",
+        "required": ["message"],
+        "title": "SuccessResponse"
       },
       "ValidationError": {
         "properties": {
